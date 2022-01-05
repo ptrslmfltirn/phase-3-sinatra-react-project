@@ -59,7 +59,7 @@ class ApplicationController < Sinatra::Base
 
   post "/authors" do 
     #Create a new Author
-    newauthor = Author.create(
+    newauthor = Author.find_or_create_by(
       author_name: params[:author_name]
     )
     newauthor.to_json
@@ -70,12 +70,6 @@ class ApplicationController < Sinatra::Base
     author = Author.find_by(id: params[:id])
     author.to_json(include: :posts)
   end
-
-  # get "/authors/:author_name" do 
-  #   #find an Author by name - this might be needed? 
-  #   author = Author.find_by(author_name: params[:author_name])
-  #   author.to_json(include: :posts)
-  # end
 
 
 end
