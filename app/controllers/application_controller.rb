@@ -1,6 +1,7 @@
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
   
+  
   # Add your routes here
   get "/" do
     { message: "Good luck with your project!" }.to_json
@@ -24,4 +25,16 @@ class ApplicationController < Sinatra::Base
     post.destroy 
     post.to_json
   end
+
+  post "/posts" do
+    #Create a new post entry from submitted data/object
+    newpost = Post.create(
+    title: params[:title],
+    content: params[:content],
+    author_id: params[:author_id]
+    )
+    newpost.to_json
+  end
+   
+
 end
