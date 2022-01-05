@@ -35,16 +35,28 @@ class ApplicationController < Sinatra::Base
     )
     newpost.to_json
   end
-  
+
+  patch "/posts/:id" do 
+    #Acquire specific post by ID and then update the title/content. Unsure if we should allow editing of the Author?
+    post = Post.find(params[:id])
+    post.update(
+      title: params[:title],
+      content: params[:content]
+    )
+    post.to_json
+  end
+
   get "/authors" do 
-    #Return all Authors
+    #Return all Authors, including their posts
     authors = Author.all 
     authors.to_json(include: :posts)
   end
 
   get "/authors/:id" do 
-    #Return all Authors
+    #Return a specific Author, including their posts
     author = Author.find(params[:id])
     author.to_json(include: :posts)
   end
+
+
 end
