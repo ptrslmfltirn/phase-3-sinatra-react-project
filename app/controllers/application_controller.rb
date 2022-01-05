@@ -35,6 +35,16 @@ class ApplicationController < Sinatra::Base
     )
     newpost.to_json
   end
-   
+  
+  get "/authors" do 
+    #Return all Authors
+    authors = Author.all 
+    authors.to_json(include: :posts)
+  end
 
+  get "/authors/:id" do 
+    #Return all Authors
+    author = Author.find(params[:id])
+    author.to_json(include: :posts)
+  end
 end
