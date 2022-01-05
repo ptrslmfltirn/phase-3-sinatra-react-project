@@ -13,6 +13,8 @@ class ApplicationController < Sinatra::Base
     posts.to_json(include: :author)
   end
 
+
+
   get "/posts/:id" do 
     #This should acquire a single specific post via id
     post = Post.find(params[:id])
@@ -36,6 +38,8 @@ class ApplicationController < Sinatra::Base
     newpost.to_json
   end
 
+
+
   patch "/posts/:id" do 
     #Acquire specific post by ID and then update the title/content. Unsure if we should allow editing of the Author?
     post = Post.find(params[:id])
@@ -52,9 +56,18 @@ class ApplicationController < Sinatra::Base
     authors.to_json(include: :posts)
   end
 
+
+  post "/authors" do 
+    #Create a new Author
+    newauthor = Author.find_or_create_by(
+      author_name: params[:author_name]
+    )
+    newauthor.to_json
+  end
+
   get "/authors/:id" do 
     #Return a specific Author, including their posts
-    author = Author.find(params[:id])
+    author = Author.find_by(id: params[:id])
     author.to_json(include: :posts)
   end
 
