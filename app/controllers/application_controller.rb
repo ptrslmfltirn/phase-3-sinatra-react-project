@@ -47,7 +47,7 @@ class ApplicationController < Sinatra::Base
       title: params[:title],
       content: params[:content]
     )
-    post.to_json
+    post.to_json(include: :author)
   end
 
   get "/authors" do 
@@ -60,7 +60,8 @@ class ApplicationController < Sinatra::Base
   post "/authors" do 
     #Create a new Author
     newauthor = Author.find_or_create_by(
-      author_name: params[:author_name]
+      author_name: params[:author_name],
+      email: params[:email]
     )
     newauthor.to_json
   end
