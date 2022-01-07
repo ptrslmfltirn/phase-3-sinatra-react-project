@@ -33,7 +33,8 @@ class ApplicationController < Sinatra::Base
     newpost = Post.create(
     title: params[:title],
     content: params[:content],
-    author_id: params[:author_id]
+    author_id: params[:author_id],
+    date: DateTime.now
     )
     newpost.to_json
   end
