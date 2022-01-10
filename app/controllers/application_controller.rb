@@ -9,7 +9,7 @@ class ApplicationController < Sinatra::Base
 
   get "/posts" do
     #This should return all posts
-    posts = Post.all 
+    posts = Post.all.order("date ASC") 
     posts.to_json(include: :author)
   end
 
@@ -46,7 +46,8 @@ class ApplicationController < Sinatra::Base
     post = Post.find(params[:id])
     post.update(
       title: params[:title],
-      content: params[:content]
+      content: params[:content],
+      date: DateTime.now
     )
     post.to_json(include: :author)
   end
@@ -67,11 +68,17 @@ class ApplicationController < Sinatra::Base
     newauthor.to_json
   end
 
-  get "/authors/:id" do 
+  # get "/authors/:id" do 
+  #   #Return a specific Author, including their posts
+  #   author = Author.find_by(id: params[:id])
+  #   author.to_json(include: :posts)
+  # end
+
+    get "/authors/:id" do 
     #Return a specific Author, including their posts
     author = Author.find_by(id: params[:id])
-    author.to_json(include: :posts)
+    posts = Post.where(author_id: author.id).order("date DESC")
+    posts.to_json
   end
-
 
 end
